@@ -1,0 +1,45 @@
+body, h1 {
+    margin: 0;
+    padding: 0;
+}
+h1 {
+    text-align: center;
+}
+.userInfo {
+    background-color: lightblue;
+    font-size: 20px;
+}
+.divForPostsAndButton {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: royalblue;
+}
+.postsMainDiv {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+}
+.displayPosts {
+    width: 90%;
+    height: 30px;
+    font-size: 20px;
+    cursor: pointer;
+    border-width: 0.5px;
+    border-radius: 10px;
+    border-color: darkolivegreen;
+}
+.postDiv {
+    padding: 10px;
+    background-color: lightyellow;
+    border: 1px solid darkgray;
+}
+.mainUl {
+    margin-block-end: 0;
+}
+.redirectButton {
+    cursor: pointer;
+    border-width: 0.5px;
+    border-radius: 5px;
+    border-color: darkolivegreen;
+}
