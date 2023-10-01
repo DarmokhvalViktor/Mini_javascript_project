@@ -5,6 +5,7 @@
 
 let url = new URL(location.href);
 let postId = JSON.parse(url.searchParams.get("postId"));
+let userId = JSON.parse(url.searchParams.get("userId"))
 console.log(postId);
 
 
@@ -25,11 +26,34 @@ commentsMainDiv.classList.add("commentsMainDiv")
 // commentsMainDiv.style.display = "none";
 document.body.appendChild(commentsMainDiv);
 
+let returnButton = document.createElement("button");
+returnButton.classList.add("returnButton");
+returnButton.innerText = `Return to previous page`;
+
+returnButton.addEventListener("click", () => {
+    location.href = `user-details.html?id=` + userId;
+})
+mainUl.prepend(returnButton);
+
+
 //get post's information;
 async function getPosts() {
-    let postsArr = await fetch("https://jsonplaceholder.typicode.com/posts/" + postId);
-    return postsArr.json();
+    try {
+        let postsArr = await fetch("https://jsonplaceholder.typicode.com/posts/" + postId);
+        return postsArr.json();
+    } catch (e) {
+        usersDiv.innerText = "Error: " + e;
+    }
 }
+async function getComments(postId) {
+    try {
+        let commentsArr = await fetch("https://jsonplaceholder.typicode.com/posts/" + postId + "/comments");
+        return commentsArr.json();
+    } catch (e) {
+        usersDiv.innerText = "Error: " + e;
+    }
+}
+
 // import { recursiveKeyValueGetter } from "./user-details.js"
 function recursiveKeyValueGetterInPosts(object, divToAppend) {
     for(let key in object) {
@@ -50,13 +74,7 @@ function recursiveKeyValueGetterInPosts(object, divToAppend) {
 //wait and display post's information
 async function render() {
     let post = await getPosts();
-    // recursiveKeyValueGetter(post, mainUl)
     recursiveKeyValueGetterInPosts(post, mainUl);
-}
-
-async function getComments(postId) {
-    let commentsArr = await fetch("https://jsonplaceholder.typicode.com/posts/" + postId + "/comments");
-    return commentsArr.json();
 }
 async function renderComments() {
     let comments = await getComments(postId);

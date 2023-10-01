@@ -25,31 +25,36 @@
 // Всі елементи котрі характеризують users, posts, comments візуалізувати, так, щоб було видно що це блоки
 // (дати фон. марджини і тд)
 
+let usersDiv = document.createElement("div");
+usersDiv.classList.add("users");
+document.body.appendChild(usersDiv);
+
 async function getUsers(){
-    let usersPromises = await fetch("https://jsonplaceholder.typicode.com/users");
-    return usersPromises.json();
+    try {
+        let usersPromises = await fetch("https://jsonplaceholder.typicode.com/users");
+        return usersPromises.json();
+    } catch (e) {
+        usersDiv.innerText = "Error: " + e;
+    }
+
 }
 async function render() {
     let users = await getUsers();
-    let usersDiv = document.createElement("div");
-    usersDiv.classList.add("users");
 
     users.forEach((user) => {
         let userElement = document.createElement("div");
         userElement.classList.add("user");
+
         userElement.innerHTML = `${user.id} — ${user.name}<br/>`
-
-        let a = document.createElement("a");
-        a.href = "./user-details.html?id=" + JSON.stringify(user.id);
-
         let button = document.createElement("button");
         button.innerText = `User "${user.name}" details`;
         button.classList.add("userButton");
 
-        a.appendChild(button);
-        userElement.appendChild(a);
+        button.addEventListener("click", () => {
+            location.href = `user-details.html?id=${user.id}`;
+        })
+        userElement.appendChild(button);
         usersDiv.appendChild(userElement);
-        document.body.appendChild(usersDiv);
     })
 }
 render().then();

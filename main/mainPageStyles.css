@@ -23,4 +23,8 @@
     border-color: lightskyblue;
     cursor: pointer;
     padding: 0 10px 0 10px;
+    transition: 0.5s;
+}
+.userButton:hover {
+    scale: 1.05;
 }

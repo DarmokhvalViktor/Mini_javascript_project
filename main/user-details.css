@@ -28,6 +28,7 @@ h1 {
     border-width: 0.5px;
     border-radius: 10px;
     border-color: darkolivegreen;
+    transition: 0.5s;
 }
 .postDiv {
     padding: 10px;
@@ -42,4 +43,19 @@ h1 {
     border-width: 0.5px;
     border-radius: 5px;
     border-color: darkolivegreen;
+    transition: 0.5s;
+}
+.returnButton {
+    font-size: 20px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    cursor: pointer;
+    border-width: 0.5px;
+    border-radius: 5px;
+    border-color: darkolivegreen;
+    transition: 0.5s;
+}
+.returnButton:hover, .displayPosts:hover, .redirectButton:hover {
+    scale: 1.05;
 }

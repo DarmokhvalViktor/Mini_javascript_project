@@ -39,10 +39,23 @@ showPosts.classList.add("displayPosts");
 showPosts.innerText = `Show all posts of the current user`;
 divForPostsAndButton.prepend(showPosts);
 
+let returnButton = document.createElement("button");
+returnButton.classList.add("returnButton");
+returnButton.innerText = `Return to previous page`;
+
+returnButton.addEventListener("click", () => {
+    location.href = `index.html`;
+})
+mainUl.prepend(returnButton);
+
 //get user's information;
 async function getUser() {
-    let usersArr = await fetch("https://jsonplaceholder.typicode.com/users/" + userId);
-    return usersArr.json();
+    try {
+        let usersArr = await fetch("https://jsonplaceholder.typicode.com/users/" + userId);
+        return usersArr.json();
+    } catch (e) {
+        usersDiv.innerText = "Error: " + e;
+    }
 }
 //wait and display user's information
 async function render() {
@@ -66,12 +79,16 @@ function recursiveKeyValueGetter(object, divToAppend) {
         }
     }
 }
-// export { recursiveKeyValueGetter };
 
 //function for getting all user's posts
 async function getUserPosts(id) {
-    let postsPromises = await fetch(`https://jsonplaceholder.typicode.com/users/`+ id + "/posts");
-    return postsPromises.json();
+    try {
+        let postsPromises = await fetch(`https://jsonplaceholder.typicode.com/users/`+ id + "/posts");
+        return postsPromises.json();
+    } catch (e) {
+        usersDiv.innerText = "Error: " + e;
+    }
+
 }
 //function for creation and display all user's posts
 async function displayPosts() {
@@ -80,15 +97,17 @@ async function displayPosts() {
         let postDiv = document.createElement("div");
         postDiv.classList.add("postDiv");
         let postContent = document.createElement("p");
-        let redirectAnchor = document.createElement("a");
         let redirectButton = document.createElement("button");
         postContent.innerHTML = `Post "№${post.id}" <hr/>title: "${post.title}"`
         redirectButton.innerText = `Post №${post.id} details`;
         redirectButton.classList.add("redirectButton");
-        redirectAnchor.href = "./post-details.html?postId=" + post.id;
-        redirectAnchor.appendChild(redirectButton);
-        postDiv.append(postContent, redirectAnchor);
+
+        postDiv.append(postContent, redirectButton);
         postsMainDiv.appendChild(postDiv);
+
+        redirectButton.addEventListener("click", () => {
+            location.href = "./post-details.html?postId=" + post.id + "&userId=" + userId;
+        } )
     })
 }
 //create event on button to show/hide user's posts
